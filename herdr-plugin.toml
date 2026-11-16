@@ -1,0 +1,39 @@
+id = "bhoov.link-opener"
+name = "Link Opener"
+version = "0.1.0"
+min_herdr_version = "0.9.1"
+description = "Ctrl-click links with other schemes than http(s), such as vscode://, and open them on this computer, also from panes on saved SSH machines."
+platforms = ["linux", "macos"]
+
+# A one-shot launch. On a computer with a desktop, `start` puts the listener in the background
+# and exits. On a machine without a desktop, it does nothing.
+[[startup]]
+command = ["python3", "link_opener.py", "start"]
+
+[[actions]]
+id = "open"
+title = "Links: open the clicked link"
+contexts = ["global"]
+command = ["python3", "link_opener.py", "open"]
+
+[[actions]]
+id = "restart"
+title = "Links: restart the listener"
+contexts = ["global"]
+command = ["python3", "link_opener.py", "restart"]
+
+[[actions]]
+id = "stop"
+title = "Links: stop the listener"
+contexts = ["global"]
+command = ["python3", "link_opener.py", "stop"]
+
+# Matches every URL whose scheme does not start with "http". Herdr opens http(s) links itself.
+# The Rust regex syntax has no lookahead, so the pattern lists the allowed first four characters.
+# For that reason it also does not match the schemes "h", "ht" and "htt", which nothing uses.
+# The list of schemes that really open is "schemes" in config.json on the computer with the desktop.
+[[link_handlers]]
+id = "other-scheme"
+title = "Open link on this computer"
+pattern = "(?i)^(?:[a-gi-z]|h[a-su-z0-9+.-]|ht[a-su-z0-9+.-]|htt[a-oq-z0-9+.-])[a-z0-9+.-]*:"
+action = "open"
