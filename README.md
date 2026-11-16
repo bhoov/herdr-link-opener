@@ -21,9 +21,18 @@ On the cluster:
 herdr plugin install bhoov/herdr-link-opener
 ```
 
+## Useful alias
+
+`vsc [path]` prints a clickable link that opens the path (default: the current directory) in VS Code. On the cluster, set `VSC_HOST` to the SSH host name your computer uses for it, if that name differs from `hostname`.
+
+```bash
+vsc() { local p=$(realpath "${1:-.}") u; [ -n "$SSH_CONNECTION" ] && u="vscode-remote/ssh-remote+${VSC_HOST:-$(hostname)}$p" || u="file$p"; printf '\e]8;;vscode://%s\e\\%s\e]8;;\e\\\n' "$u" "$p"; }
+```
+
 ## Add a scheme
 
-Edit `schemes` in the config on your computer, then restart the listener. For example:
+The default `schemes` are `["vscode", "vscode-insiders"]`.
+To add one, edit `schemes` in the config on your computer, then restart the listener. For example:
 
 ```bash
 echo '{"schemes": ["vscode", "vscode-insiders", "zed"]}' > "$(herdr plugin config-dir bhoov.link-opener)/config.json"
