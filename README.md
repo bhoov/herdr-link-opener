@@ -23,7 +23,7 @@ herdr plugin install bhoov/herdr-link-opener
 
 ## Add a scheme
 
-Edit `schemes` in the config on your computer, then restart the listener:
+Edit `schemes` in the config on your computer, then restart the listener. For example:
 
 ```bash
 echo '{"schemes": ["vscode", "vscode-insiders", "zed"]}' > "$(herdr plugin config-dir bhoov.link-opener)/config.json"
